@@ -19,13 +19,15 @@ violations=commands.CooldownMapping.from_cooldown(4,60,commands.BucketType.membe
 async def on_ready():
     print(f'We have logged in as {bot.user}')
     await bot.tree.sync(guild = discord.Object(id = hiyori_server_id))
-    
+
+@bot.hybrid_command()
+async def hello(ctx):
+    await ctx.send("Hello from the bot!")
 
 @bot.event
 async def on_message(message: discord.Message):
-    if message.content == "!hello":
-        await message.channel.send("Hello from the bot!")
-        #await bot.process_commands(message)
+    if message.content.startswith("!"):
+        await bot.process_commands(message)
         return
         
     if type(message.channel) is not discord.TextChannel or message.author.bot:
